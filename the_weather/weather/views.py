@@ -1,6 +1,7 @@
 from django.shortcuts import render
 import requests
 from .models import City
+from .forms import *
 
 # Create your views here.
 
@@ -10,6 +11,8 @@ def index(request):
 
 
     city = 'Las Vegas'
+
+    form = CityForm()
 
     cities = City.objects.all()
 
@@ -32,6 +35,6 @@ def index(request):
 
  
 
-    context = {'weather_data':weather_data}
+    context = {'weather_data':weather_data,'form':form}
 
     return render (request,'weather/index.html',context)
