@@ -1,5 +1,6 @@
 from django.shortcuts import render
 import requests
+from .models import City
 
 # Create your views here.
 
@@ -10,9 +11,15 @@ def index(request):
 
     city = 'Las Vegas'
 
+    cities = City.objects.all()
+
     api_key = ''
 
-    city_weather = requests.get(url.format(city, api_key)).json()
+    weather_data = []
+
+    for city in cities:
+           
+           city_weather = requests.get(url.format(city, api_key)).json()
 
     weather = {
         'city' : city,
@@ -21,6 +28,10 @@ def index(request):
         'icon' : city_weather['weather'][0]['icon']
     }
 
-    context = {'weather':weather}
+    weather_data.append(weather) 
+
+ 
+
+    context = {'weather_data':weather_data}
 
     return render (request,'weather/index.html',context)
